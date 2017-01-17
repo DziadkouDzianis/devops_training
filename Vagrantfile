@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "bertvv/centos72"
   config.vm.provider "virtualbox" do |vb|
-  #vb.customize ['modifyvm', :id, '--cableconnected1', 'on'] 
+  ##vb.customize ['modifyvm', :id, '--cableconnected1', 'on'] 
  end  
  config.vm.define "s1" do |server1|
   server1.vm.hostname = "s1"
