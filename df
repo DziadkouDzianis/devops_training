@@ -1,0 +1,159 @@
+[33mcommit 4b11316eaeac56464a27cbf9df83cd76038f4f10[m
+Author: Dzianis Dziadkou <dziadkou.dzianis@gmail.com>
+Date:   Wed Jan 18 14:21:43 2017 +0300
+
+    d
+
+[1mdiff --git a/Thumbs.db b/Thumbs.db[m
+[1mindex 9418b51..a5b0d86 100644[m
+Binary files a/Thumbs.db and b/Thumbs.db differ
+
+[33mcommit 5c47d50718cc61a4f4ab5563afa096a5456ea019[m
+Author: Dzianis Dziadkou <dziadkou.dzianis@gmail.com>
+Date:   Wed Jan 18 13:52:59 2017 +0300
+
+    ignore
+
+[1mdiff --git a/.gitignore/.gitignore b/.gitignore/.gitignore[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/Thumbs.db b/Thumbs.db[m
+[1mindex 9ef9e2d..9418b51 100644[m
+Binary files a/Thumbs.db and b/Thumbs.db differ
+
+[33mcommit 93436147579ffab25b4294a9f4739a83eb16af1f[m
+Author: Dzianis Dziadkou <dziadkou.dzianis@gmail.com>
+Date:   Wed Jan 18 13:21:52 2017 +0300
+
+    1 fileasd
+
+[1mdiff --git a/Thumbs.db b/Thumbs.db[m
+[1mindex d2ff5a7..9ef9e2d 100644[m
+Binary files a/Thumbs.db and b/Thumbs.db differ
+
+[33mcommit 1a1c083c979f8c82daa9be3a908b52e65cbf3634[m
+Author: Dzianis Dziadkou <dziadkou.dzianis@gmail.com>
+Date:   Wed Jan 18 13:19:21 2017 +0300
+
+    1 file2
+
+[1mdiff --git a/Thumbs.db b/Thumbs.db[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d2ff5a7[m
+Binary files /dev/null and b/Thumbs.db differ
+
+[33mcommit b3f724dfcddb2de419d1917470b43714cfa46de1[m
+Author: Dzianis Dziadkou <dziadkou.dzianis@gmail.com>
+Date:   Wed Jan 18 13:10:04 2017 +0300
+
+    1 file
+
+[1mdiff --git a/GitHub_Commands.rb b/GitHub_Commands.rb[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f7c159b[m
+[1m--- /dev/null[m
+[1m+++ b/GitHub_Commands.rb[m
+[36m@@ -0,0 +1,103 @@[m
+[32m+[m
+[32m+[m[32m#GitHub[m
+[32m+[m[32m# all command are here https://git-scm.com/docs[m
+[32m+[m
+[32m+[m[32m#To assign a new directory as a main go to desirable directory and then[m
+[32m+[m[32mgit init[m
+[32m+[m
+[32m+[m[32m#To know the status of progress use[m
+[32m+[m[32mgit status[m
+[32m+[m[32m#if staged:[m
+[32m+[m[32m  #Files are ready to be committed.[m
+[32m+[m[32m#unstaged:[m
+[32m+[m[32m  #Files with changes that have not been prepared to be committed.[m
+[32m+[m[32m#untracked:[m
+[32m+[m[32m  #Files aren't tracked by Git yet. This usually indicates a newly created file.[m
+[32m+[m[32m#deleted:[m
+[32m+[m[32m#File has been deleted and is waiting to be removed from Git.[m
+[32m+[m
+[32m+[m[32m#To add file to the staging area type file name with extension without quotas[m
+[32m+[m[32mgit add name_file.extension[m
+[32m+[m
+[32m+[m	[32m#Add all. where the dot stands for the current directory, so everything in and beneath it is added. The -A ensures even file deletions are included.[m
+[32m+[m	[32mgit add -a .[m
+[32m+[m[41m	[m
+[32m+[m	[32m#You can use git reset <filename> to remove a file or files from the staging area.[m
+[32m+[m	[32mgit reset name_file.extension[m
+[32m+[m[41m	[m
+[32m+[m	[32m#To add all files with the same extencion use wildcard[m
+[32m+[m	[32mgit all '*.extension'[m
+[32m+[m[41m	[m
+[32m+[m[32m# Commit changes.[m
+[32m+[m[32mgit commit -m "My comment will be here"[m
+[32m+[m
+[32m+[m[32m#To see log file (commits and changes)[m
+[32m+[m[32mgit log[m
+[32m+[m[32mgit log --summary[m
+[32m+[m
+[32m+[m[32m#Add remote repository where try-git is your name on GitHub. try_git.git is name of your repository. Origin is a name of a remote in GitHub[m
+[32m+[m[32mgit remote add origin https://github.com/try-git/try_git.git[m
+[32m+[m
+[32m+[m[32m#next command tells GitHub where to put the commit[m
+[32m+[m[32m#origin - name of the remote[m
+[32m+[m[32m#master - name of current branch    \\EPBYMINSA0000.minsk.epam.com\Training Materials\EPAM Mentoring\DevOps Mentoring Program\01_Version_Control_Systems[m
+[32m+[m[32m# -u - remember the parameters. SO, next time we can use just git push[m
+[32m+[m[32mgit push -u origin master[m
+[32m+[m
+[32m+[m[32m#To check the changes which were made in repository.[m
+[32m+[m[32m#Use the command 'git stash' to stash your changes, and 'git stash apply' to re-apply your changes after your pull.[m
+[32m+[m[32mgit pull origin master[m
+[32m+[m
+[32m+[m[32m#To see the difference between files. Red - old, green - new.[m
+[32m+[m[32m#HEAD - The HEAD is a pointer that holds your position within all your different commits. By default HEAD points to your most recent commit,[m[41m [m
+[32m+[m[32m#Do it can be used as a quick way to reference that commit without having to look up the SHA. Like a SAVEPOINT in Oracle[m
+[32m+[m[32mgit diff HEAD[m[41m [m
+[32m+[m
+[32m+[m[32m#Remember, staged files are files we have told git that are ready to be committed.[m
+[32m+[m[32m#You want to try to keep related changes together in separate commits. Using 'git diff' gives you a good overview of changes you have made and[m[41m [m
+[32m+[m[32m#lets you add files or directories one at a time and commit them separately.[m
+[32m+[m[32mgit add file_path/file_name.extension[m
+[32m+[m
+[32m+[m[32m#to see the changes you just staged[m
+[32m+[m[32mgit diff --staged[m
+[32m+[m
+[32m+[m[32m#To remove file[m
+[32m+[m[32mgit reset file_path/file_name.extension[m
+[32m+[m
+[32m+[m[32m# To undo last changes[m
+[32m+[m[32mgit checkout --file_name.extension[m
+[32m+[m
+[32m+[m[32m# To create a new branch[m
+[32m+[m[32mgit branch New_branch[m
+[32m+[m
+[32m+[m[32m#TO see how many branches you have[m
+[32m+[m[32mgit branch[m
+[32m+[m
+[32m+[m[32m#To see branch options[m
+[32m+[m[32mgit branch -b[m
+[32m+[m
+[32m+[m[32m#To check a new branch[m
+[32m+[m[32mgit checkout new_branch[m
+[32m+[m
+[32m+[m[32m#Next command helps you to remove file from the DISK and from the REPOCITORY too.[m
+[32m+[m[32mgit rm '*.txt'[m
+[32m+[m
+[32m+[m[32m#To remove all files into current directory use[m
+[32m+[m[32mgit rm -r folder_name[m
+[32m+[m
+[32m+[m[32m#To delete files with the commit.[m
+[32m+[m[32mgit commit -am "Delete stuff"[m
+[32m+[m
+[32m+[m[32m#To merget FROM the NAME_BRANCH to the CURRENT_BRANCH.[m
+[32m+[m[32m#1. Go to the CURRENT_BRANCH[m
+[32m+[m[32mgit checkout current_branch[m
+[32m+[m[32m#2. Merge it (you merge data FROM the CURRENT_BRANCH TO the NAME_BRANCH)[m
+[32m+[m[32mgit merge NAME_BRANCH[m[41m [m
+[32m+[m
+[32m+[m[32m#To delete a branch[m
+[32m+[m[32m#You can either add the --force (-f) option or use -D which combines -d -f together into one command.[m
+[32m+[m[32mgit branch -d branch_name[m
+[32m+[m
+[32m+[m[32m#TO pull it into remote repository[m
+[32m+[m[32mgit push[m
+[32m+[m
