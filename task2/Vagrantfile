@@ -3,6 +3,7 @@
 Vagrant.configure("2") do |config|
 	config.vm.box = "bertvv/centos72"
 		config.vm.provider "virtualbox" do |vb|
+		config.vm.provision "shell", path: "all_prov.sh"
 	end		
 	config.vm.define "avm" do |avm|
 		avm.vm.hostname = "avm"
