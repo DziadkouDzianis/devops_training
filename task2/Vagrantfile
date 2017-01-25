@@ -1,17 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-	$s1 = <<SCRIPT
-	sudo sh -s
-	sudo echo 'Server 1' > /usr/share/tomcat/webapps/ROOT/server.html
-	exit
-	SCRIPT
-	
-	$s2 = <<SCRIPT
-	sudo sh -s
-	sudo echo 'Server 2' > /usr/share/tomcat/webapps/ROOT/server.html
-	exit
-	SCRIPT
+$s1 = <<SCRIPT
+sudo sh -s
+sudo echo 'Server 1' > /usr/share/tomcat/webapps/ROOT/server.html
+exit
+SCRIPT
+$s2 = <<SCRIPT
+sudo sh -s
+sudo echo 'Server 2' > /usr/share/tomcat/webapps/ROOT/server.html
+exit
+SCRIPT
 
 Vagrant.configure("2") do |config|
 	config.vm.box = "bertvv/centos72"
