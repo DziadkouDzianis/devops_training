@@ -1,11 +1,8 @@
 sudo yum install httpd -y
-#sudo systemctl restart network
 sudo systemctl enable httpd
 sudo systemctl start httpd
 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd –-reload
-#sudo systemctl stop firewalld
-#sudo systemctl disable firewalld
 sudo cp /vagrant/mod_jk.so /etc/httpd/modules/
 sudo sh -s  
 sudo echo 'worker.list=lb, status

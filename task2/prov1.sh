@@ -5,6 +5,6 @@ sudo yum install tomcat tomcat-webapps tomcat-admin-webapps -y
 #sudo systemctl disable firewalld
 sudo systemctl enable tomcat 
 sudo systemctl start tomcat 
-sudo sh -s
-sudo echo 'Server 1' > /usr/share/tomcat/webapps/ROOT/server.html
-exit
+#sudo sh -s
+#sudo echo 'Server 1' > /usr/share/tomcat/webapps/ROOT/server.html
+#exit
