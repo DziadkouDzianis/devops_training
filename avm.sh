@@ -1,3 +1,4 @@
+sudo yum install vim -y	#vim install
 sudo yum install httpd -y
 sudo systemctl enable httpd
 sudo systemctl start httpd
@@ -23,20 +24,3 @@ JkLogLevel info
 JkMount /* lb' >> /etc/httpd/conf/httpd.conf
 sudo systemctl restart httpd
 exit
-
-#Install Jenkins
-sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
-sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
-sudo yum install jenkins -y
-#Install Groovy
-sudo yum install groovy -y
-##Install gradle
-# sudo yum install unzip
-# cd /opt
-# sudo wget https://services.gradle.org/distributions/gradle-3.1-bin.zip
-# sudo unzip gradle-3.1-bin.zip
-# sudo ln -s gradle-3.1 gradle
-# sudo vim /etc/profile.d/gradle-env.sh
-export GRADLE_HOME=/opt/gradle
-export PATH=$PATH:$GRADLE_HOME/bin
-# sudo source /etc/profile.d/gradle-env.sh

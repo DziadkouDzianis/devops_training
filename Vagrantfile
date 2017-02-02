@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
 		avm.vm.network "forwarded_port", guest: 22, host: 2220, id: "ssh"	
 		avm.vm.network "forwarded_port", guest: 80, host: 8000	
 		avm.vm.provision "shell", path: "avm.sh"
+		avm.vm.provision "shell", path: "nexus.sh"	#http://172.192.10.30:8081/nexus/#welcome
 	#127.0.0.1.:2222
 	end
 	
