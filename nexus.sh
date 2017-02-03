@@ -49,7 +49,7 @@ exit
 #sudo source /etc/profile.d/gradle-env.sh
 #http://172.192.10.30:8080/
 #sudo vi /var/lib/jenkins/secrets/initialAdminPassword
-#Copy Junkins HTTP Request plugin
+#Copy Junkins HTTP Request plugin	#admin/admin123
 sudo cd /vagrant/
 sudo cp ./http_request.hpi /var/lib/jenkins/plugins
 sudo systemctl restart jenkins
