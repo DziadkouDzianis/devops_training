@@ -6,14 +6,19 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     testCompile group: 'junit', name: 'junit', version: '4.7'
 	
 	compile group: 'log4j', name: 'log4j', version: '1.2.17'
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
-
+	
 }
+war {
+archiveName 'task3.war'
+}
+
 
 task vers  {
 	
@@ -43,5 +48,6 @@ task greeting(dependsOn: vers) {
 
 	new File('./src/main/resources/greeting.txt').bytes = new File('gradle.properties').bytes
 	println("-----The population of the greeting.txt was finished successfully-----")
+
 
 	}
