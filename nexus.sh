@@ -50,8 +50,9 @@ exit
 #http://172.192.10.30:8080/
 #sudo vi /var/lib/jenkins/secrets/initialAdminPassword
 #Copy Junkins HTTP Request plugin	#admin/admin123
-sudo cd /vagrant/
+cd /vagrant
 sudo cp ./http_request.hpi /var/lib/jenkins/plugins
 sudo systemctl restart jenkins
-
+sudo yum install maven -y
+sudo yum install git -y
 
