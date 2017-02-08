@@ -42,10 +42,6 @@ sudo ln -s gradle-3.1 gradle
 #export GRADLE_HOME=/opt/gradle
 #export PATH=$PATH:$GRADLE_HOME/bin
 #
-sudo echo 'GRADLE_HOME=/opt/gradle 
-PATH=$PATH:$GRADLE_HOME/bin' > /etc/profile.d/gradle-env.sh
-exit
-
 #sudo source /etc/profile.d/gradle-env.sh
 #http://172.192.10.30:8080/
 #sudo vi /var/lib/jenkins/secrets/initialAdminPassword
@@ -53,6 +49,10 @@ exit
 cd /vagrant
 sudo cp ./http_request.hpi /var/lib/jenkins/plugins
 sudo systemctl restart jenkins
+sudo systemctl start jenkins
 sudo yum install maven -y
 sudo yum install git -y
-
+#Gradle Install
+sudo echo 'GRADLE_HOME=/opt/gradle 
+PATH=$PATH:$GRADLE_HOME/bin' > /etc/profile.d/gradle-env.sh
+exit
