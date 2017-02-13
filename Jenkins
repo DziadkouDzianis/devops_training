@@ -17,7 +17,7 @@ node {
         sh 'git add .'
         sh 'git config user.email dziadkou.dzianis@gmail.com'
         sh 'git config user.name admin'
-        sh("git commit -am 'Jenkins'")
+        sh("git commit -am 'Start Jenkins pipeline'")
         sh("git push https://${USERNAME}:${PASSWORD}@github.com/DziadkouDzianis/devops_training.git")   }       //end dir
 			}
 	stage 'Upload to Nexus'
@@ -83,7 +83,7 @@ node {
         sh 'git add .'
         sh 'git config user.email dziadkou.dzianis@gmail.com'
         sh 'git config user.name admin'
-        sh("git commit -am 'Jenkins'")
+        sh("git commit -am 'Finish Jenkins Job'")
         sh("git push https://${USERNAME}:${PASSWORD}@github.com/DziadkouDzianis/devops_training.git")   }
 			}
 }
