@@ -28,18 +28,20 @@ task vers  {
 	if(versionPropsFile.exists())
 		versionProps.load(new FileInputStream(versionPropsFile))
 	def doubleVal = (versionProps['minor_version'] ?: "0").toDouble()
-	def mnr = Math.round( doubleVal * 100.0 ) / 100.0 + 1/1000
+	def mnr = Math.round( doubleVal * 100.0 ) / 100.0 + 1/100
 	def mjr = (versionProps['major_version'] ?: "0").toString() 
 	
 	double i1 = mnr
 	int i2 = (int) i1
 	
 	int M = Integer.parseInt(mjr) + mnr
+	def vnexus = M + mnr - i2
 	println(M + mnr - i2 + " Full version")
 	println(M + " major version")
 	println(i1 + " minor version")
-	println(versionProps['minor_version'] = String.format("%.3f", mnr - i2))
+	println(versionProps['minor_version'] = String.format("%.2f", mnr - i2))
 	versionProps['major_version'] = (M).toString()
+	
 	
 	versionProps.store(versionPropsFile.newWriter(), null)
 	

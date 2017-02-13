@@ -1,3 +1,0 @@
-#Wed Feb 08 08:49:05 UTC 2017
-major_version=0
-minor_version=0.24
