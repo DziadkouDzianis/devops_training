@@ -4,7 +4,6 @@ version = '1.0'
 
 repositories {
     mavenCentral()
-
 }
 
 
@@ -22,7 +21,7 @@ archiveName 'task3.war'
 
 
 task vers  {
-	
+		doLast{		//changed
 	def Properties versionProps = new Properties()
 	def versionPropsFile = file('gradle.properties')
 	if(versionPropsFile.exists())
@@ -35,26 +34,25 @@ task vers  {
 	int i2 = (int) i1
 	
 	int M = Integer.parseInt(mjr) + mnr
-	def vnexus = M + mnr - i2
 	println(M + mnr - i2 + " Full version")
 	println(M + " major version")
 	println(i1 + " minor version")
 	println(versionProps['minor_version'] = String.format("%.2f", mnr - i2))
 	versionProps['major_version'] = (M).toString()
 	
-	
 	versionProps.store(versionPropsFile.newWriter(), null)
-	
+	}
 }
 
 task greeting(dependsOn: vers) {
+		doLast{		//changed
 
-	new File('./src/main/resources/greeting.txt').bytes = new File('gradle.properties').bytes
+	new File('./build/resources/main/greeting.txt').bytes = new File('gradle.properties').bytes		//changed
 	println("-----The population of the greeting.txt was finished successfully-----")
-
-
+		}
 	}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0' //gradle 3.0 to run this project
 }
+wrapper.dependsOn greeting	//changed
