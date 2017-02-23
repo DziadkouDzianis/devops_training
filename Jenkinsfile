@@ -29,10 +29,6 @@ node ('tomcat1') {
 	    def vBuild = getVersion()
 		sh ("docker run -d -p 8080:8080 --restart=always --name task4 172.192.10.30:5000/task4:${vBuild}")
     }
-	stage 'Pull Task4' {
-	    def vBuild = getVersion()
-		sh 'docker pull 172.192.10.30:5000/task4:$vBuild'
-	}
 }
 node ('master') {
 	stage 'Check the version'
