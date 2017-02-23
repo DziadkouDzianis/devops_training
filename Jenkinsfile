@@ -12,19 +12,14 @@ node ('master') {
 		def vBuild = getVersion() //getVersion()
 		sh("docker build -t 172.192.10.30:5000/task4:${vBuild} --build-arg vTask=${vBuild} .")
 		}   
-	stage 'Run task4 registry'
-	    dir('devops_training') {
-	    def vBuild = getVersion()
-	    sh ("docker run -d -p 5000:5000 --restart=always --name task4 registry registry:2")
-	    }
 	stage 'Push to registry'
         dir('devops_training') {
         def vBuild = getVersion()	
         sh ("docker push 172.192.10.30:5000/task4:${vBuild}")
         }
-	}
+}
 node ('tomcat1') {
-	stage 'Run registry from another machine' 
+	stage 'Pull image and run new container' 
 	    dir('devops_training')  {
 	    def vBuild = getVersion()
 		sh ("docker run -d -p 8080:8080 --restart=always --name task4 172.192.10.30:5000/task4:${vBuild}")
