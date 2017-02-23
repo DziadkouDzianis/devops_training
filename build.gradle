@@ -1,0 +1,57 @@
+apply plugin: 'war'
+
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.7'
+	
+	compile group: 'log4j', name: 'log4j', version: '1.2.17'
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	
+}
+war {
+archiveName 'task3.war'
+}
+
+
+task vers  {
+		doLast{		//changed
+	def Properties versionProps = new Properties()
+	def versionPropsFile = file('gradle.properties')
+	if(versionPropsFile.exists())
+		versionProps.load(new FileInputStream(versionPropsFile))
+	def doubleVal = (versionProps['minor_version'] ?: "0").toDouble()
+	def mnr = Math.round( doubleVal * 100.0 ) / 100.0 + 1/100
+	def mjr = (versionProps['major_version'] ?: "0").toString() 
+	
+	double i1 = mnr
+	int i2 = (int) i1
+	
+	int M = Integer.parseInt(mjr) + mnr
+	println(M + mnr - i2 + " Full version")
+	println(M + " major version")
+	println(i1 + " minor version")
+	println(versionProps['minor_version'] = String.format("%.2f", mnr - i2))
+	versionProps['major_version'] = (M).toString()
+	
+	versionProps.store(versionPropsFile.newWriter(), null)
+	}
+}
+
+task greeting(dependsOn: vers) {
+		doLast{		//changed
+	new File('gradle.properties').bytes = new File('./src/main/resources/greeting.txt').bytes	//changed
+	println("-----The population of the greeting.txt was finished successfully-----")
+		}
+	}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0' //gradle 3.0 to run this project
+}
+greeting.dependsOn wrapper	//changed

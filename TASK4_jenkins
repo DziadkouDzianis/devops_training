@@ -1,0 +1,20 @@
+
+sudo docker run -d -p 5000:5000 --restart=always --name registry registry:2
+sudo docker build -t task4 .
+sudo docker tag task4 172.192.10.30:5000/task4
+sudo docker push 172.192.10.30:5000/task4
+--vm2
+sudo docker run -d -p 5000:5000 --restart=always --name registry registry:2
+sudo docker pull 172.192.10.30:5000/task4
+sudo docker tag 172.192.10.30:5000/task4 task4:2.0
+sudo docker stop registry
+sudo docker run -d -p 5000:8080 --restart=always --name task4_new task4:2.0
+curl -v "http://172.192.10.31:5000/task3/"
+sudo docker stop task4_new
+sudo docker rm task4_new
+
+
+withCredentials([usernamePassword(credentialsId: 'docker_passwd', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+	docker login -u $USERNAME -p $PASSWORD -e 172.192.10.30:5000/task4
+}
+
