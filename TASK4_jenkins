@@ -4,63 +4,54 @@ def getVersion() {
 	props.load(new StringReader(propsString))
 	props.get("minor_version") + props.get("major_version")
 	}
-node {	
+node ('master') {
 	stage 'Git clone'   
-		sh 'git clone https://github.com/DziadkouDzianis/devops_training.git -b task4'
+		sh 'git clone https://github.com/DziadkouDzianis/devops_training.git -b task4'  
 	stage 'Downlload from Nexus and build in Docker'
 		dir ('devops_training') { 
 		def vBuild = getVersion() //getVersion()
-		//echo vBuild
-		sh("docker build -t task4 --build-arg vTask=${vBuild} .")
+		sh("docker build -t 172.192.10.30:5000/task4:${vBuild} --build-arg vTask=${vBuild} .")
 		}   
-	stage 'Run task4'
-		dir('devops_training') {
-		sh 'docker run -d -p 5000:5000 --restart=always --name registry registry:2'
-		}
+	stage 'Run task4 registry'
+	    dir('devops_training') {
+	    def vBuild = getVersion()
+	    sh ("docker run -d -p 5000:5000 --restart=always --name task4 172.192.10.30:5000/task4:${vBuild}")
+	    }
 	stage 'Tag task 4'
 		dir('devops_training') {
-		sh 'docker tag task4 172.192.10.30:5000/task4'
+        def vBuild = getVersion()
+		sh ("docker tag task4 172.192.10.30:5000/task4:$vBuild")
 		}
 	stage 'Push to registry'
-		dir('devops_training') {
-			withCredentials([usernamePassword(credentialsId: 'docker_passwd', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-			sh 'docker login -u $USERNAME -p $PASSWORD 172.192.10.30:5000/task4'
+        dir('devops_training') {
+            def vBuild = getVersion()	{
+        sh ("docker push 172.192.10.30:5000/task4:$vBuild")
 			}
-		}
+        }
 	}
 node ('tomcat1') {
-	stage 'Run registry'        
-		sh 'docker run -d -p 5000:5000 --restart=always --name registry registry:2'
-	stage 'Pull Task4'
-		sh 'docker pull 172.192.10.30:5000/task4'
-	stage 'Add tag'
-		sh 'docker tag 172.192.10.30:5000/task4 task4:2.0'
-	stage 'Stop registry'
-		sh 'docker stop registry'
-	stage 'Run task4'
-		sh 'docker run -d -p 5000:8080 --restart=always --name task4_new task4:2.0'
-	stage 'Check the version'
-		sh("curl -v 'http://172.192.10.31:5000/task3/'")
-	stage 'Stop and remove task4_new'
-		sh 'docker stop task4_new'
-		sh 'docker rm task4_new'
+	stage 'Run registry from another machine' {
+	    def vBuild = getVersion()
+		sh 'docker run -d -p 8080:8080 --restart=always --name task4 172.192.10.30:5000/task4:$vBuild'
+    }
+	stage 'Pull Task4' {
+	    def vBuild = getVersion()
+		sh 'docker pull 172.192.10.30:5000/task4:$vBuild'
 	}
-	
-
-/*----Necessary changes-----
-----------------------------
-sudo newgrp docker
-sudo usermod -a -G docker jenkins
-sudo usermod -a -G docker vagrant
-----
-stage 'Give permission' 
-    		dir('devops_training/dockerbuild') 
-    	    sh 'chmod +x dockerfile' 
-stage 'Change docker config'
-            dir('/etc/sysconfig') {
-            writeFile file: 'docker', text: '''if [ -z "${DOCKER_CERT_PATH}" ]; then
-            DOCKER_CERT_PATH=/etc/docker
-            fi
-            INSECURE_REGISTRY=\'--insecure-registry=172.192.10.30:5000\''''
+	stage 'Stop and remove task4'
+		sh 'docker stop task4'
+		sh 'docker rm task4'
+	}
+node ('master') {
+	stage 'Check the version'
+	dir('devops_training')	{
+	def vBuild = getVersion() 
+	def tomcat_war=sh returnStdout: true, script: "curl -s http://172.192.10.31:8080/task3/ | sed 's/<[^>]*>//g'"
+	def gradle_war=sh returnStdout: true, script: "cat ./gradle.properties"
+		if (tomcat_war.trim() == gradle_war.trim())
+				{ echo '---------Tomcat1 is good----------'
             }
-*/
+			else { echo '------------Tomcat1 is bad-----------'
+            }
+	}
+}
