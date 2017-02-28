@@ -4,7 +4,7 @@ maintainer_email 'you@example.com'
 license 'all_rights'
 description 'Installs/Configures book1'
 long_description 'Installs/Configures book1'
-version '0.1.2'
+version '0.1.60'
 
 # The `issues_url` points to the location where issues for this cookbook are
 # tracked.  A `View Issues` link will be displayed on this cookbook's page when
@@ -17,5 +17,7 @@ version '0.1.2'
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/book1' if respond_to?(:source_url)
+
+# name 'book1'
 
 depends 'docker', '~> 2.0'

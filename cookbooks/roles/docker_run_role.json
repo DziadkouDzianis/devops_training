@@ -1,0 +1,19 @@
+{
+  "name": "docker_run_role",
+  "description": "This role is created to run Docker images",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[docker_install_role]",
+    "recipe[book2]"
+  ],
+  "env_run_lists": {
+
+  }
+}
