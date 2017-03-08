@@ -18,4 +18,4 @@ long_description 'Installs/Configures book2'
 # source_url 'https://github.com/<insert_org_here>/book2' if respond_to?(:source_url) 
 
 depends 'docker', '~> 2.0'
-version "0.020"
+version "0.010"
