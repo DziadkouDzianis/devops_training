@@ -1,0 +1,84 @@
+# Recipe file1 default.rb 
+
+# Install docker
+docker_service 'default' do
+  ipv4_forward true
+  insecure_registry 'https//:172.192.10.31:5000'
+  action [:create, :start]
+end
+
+################################################
+# Recipe file2 default.rb 
+
+# Add image
+docker_image 'task4'
+  repo '172.192.10.30:5000/task4'
+  tag '0.020'
+  action :pull  
+end
+
+# Add container
+docker_container 'reg' do
+  repo '172.192.10.30:5000/task4'
+  tag '0.020'
+  action :run
+end
+################################################
+
+
+
+
+# docker tag d1e32b95d8e8 172.192.10.30:5000/reg
+# docker push 172.192.10.30:5000/reg
+####################
+
+docker_image '172.192.10.30:5000/task4' do
+  tag '0.020'
+  source '/var/lib/jenkins/workspace/task4/devops_training/dockerfile'
+  action :build_if_missing
+end
+
+docker_container 'registry' do
+  repo 'docker.io/registry'
+  tag '2'
+  port '5000:5000'
+  action :run_if_missing
+end
+
+docker_image '172.192.10.30:5000/task4' do
+  tag '0.020'
+  action :push
+end
+
+docker_container '172.192.10.30:5000/task4' do
+  repo '172.192.10.30:5000/task4'
+  tag '0.020'
+  port '8080:8080'
+  action :run_if_missing
+end
+
+
+# docker_image '172.192.10.30:5000/task4' do
+#  tag '0.020'
+#  action :pull
+# end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
