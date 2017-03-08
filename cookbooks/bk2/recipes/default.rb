@@ -4,20 +4,6 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-# Add image
-#docker_image '172.192.10.30:5000/task4' do
-#  repo "#{node[:book2][:img]}"
-#  tag "#{node[:book2][:vers]}"
-#  action :pull
-#end
-
-# Add container
-#docker_container 'tag' do
-#  repo '172.192.10.30:5000/task4'
-#  repo "#{node[:book2][:img]}"
-#  tag "#{node[:book2][:vers]}"
-#  action :run
-#end
 
 require 'socket'
 require 'timeout'
@@ -29,14 +15,14 @@ begin
       begin
          TCPSocket.new(ip, port)
       rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, SocketError
-        retry
+	retry      
       end
     end
   rescue Timeout::Error
-
+ 
 #if port_open?("172.192.10.32", ports[1])
-#    docker_container 'tag0' do
-#      repo '172.192.10.30:5000/task4'
+#   docker_container 'tag0' do
+#     repo '172.192.10.30:5000/task4'
 #      repo "#{node[:book2][:img]}"
 #      tag "#{node[:book2][:vers]}"
 #      port "8080:8080"
@@ -44,15 +30,14 @@ begin
 #    end
 #     docker_container 'tag1' do
 #      action [:stop, :delete]
-#     end
-#end
-  end
+#  end  
+ end
 end
+
 
 # Blue Green Development
 
 if port_open?("172.192.10.32", ports[0])
-
      docker_container 'tag1' do
       repo '172.192.10.30:5000/task4'
       repo "#{node[:book2][:img]}"
@@ -63,7 +48,7 @@ if port_open?("172.192.10.32", ports[0])
      docker_container 'tag0' do
       action [:stop, :delete]
     end
-elsif port_open?("172.192.10.32", ports[1])
+elsif port_open?("172.192.10.32", ports[1]) 
       docker_container 'tag0' do
      repo '172.192.10.30:5000/task4'
      repo "#{node[:book2][:img]}"
@@ -73,5 +58,5 @@ elsif port_open?("172.192.10.32", ports[1])
    end
     docker_container 'tag1' do
      action [:stop, :delete]
-    end
+    end     
 end

@@ -1,0 +1,15 @@
+{
+  "name": "fake",
+  "description": "This is a FAKE environment",
+  "cookbook_versions": {
+    "book2": "< 1.0.0"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  }
+}
