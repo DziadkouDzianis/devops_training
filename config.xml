@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.10">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@1.5.2">
+          <name>env</name>
+          <description>Select the environment</description>
+          <randomName>choice-parameter-77714093534911</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1.26">
+              <script>return &apos;knife environment list&apos;.execute().text.tokenize()</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1.26">
+              <script></script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>task7</projectName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters></referencedParameters>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+        </org.biouno.unochoice.CascadeChoiceParameter>
+        <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@1.5.2">
+          <name>role</name>
+          <description>Select the role</description>
+          <randomName>choice-parameter-77714098094990</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1.26">
+              <script>return &apos;knife role list&apos;.execute().text.tokenize()</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1.26">
+              <script></script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>task7</projectName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters></referencedParameters>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+        </org.biouno.unochoice.CascadeChoiceParameter>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.5.2">
+          <name>nex</name>
+          <description>Select the build number</description>
+          <randomName>choice-parameter-77714105567625</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1.26">
+              <script>return &apos;ls /usr/local/sonatype-work/nexus/storage/releases/task3&apos;.execute().text.tokenize()</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1.26">
+              <script></script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>task7</projectName>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+        </org.biouno.unochoice.ChoiceParameter>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.27">
+    <script>def getVersion() {
+	def propsString = readFile &quot;gradle.properties&quot;
+	def props = new Properties()
+	props.load(new StringReader(propsString))
+	props.get(&quot;minor_version&quot;) + props.get(&quot;major_version&quot;)
+	}
+/*node (&apos;master&apos;) {
+	stage &apos;Git clone&apos;   
+		sh &apos;git clone https://github.com/DziadkouDzianis/devops_training.git -b task7&apos;  
+	stage &apos;Downlload from Nexus and build in Docker&apos;
+		dir (&apos;devops_training&apos;) { 
+		def vBuild = getVersion() //getVersion()
+		sh(&quot;docker build -t 172.192.10.30:5000/task4:${vBuild} --build-arg vTask=${vBuild} .&quot;)
+		}   
+	stage &apos;Push to registry&apos;
+        dir(&apos;devops_training&apos;) {
+        def vBuild = getVersion()	
+        sh (&quot;docker push 172.192.10.30:5000/task4:${vBuild}&quot;)
+        }
+}*/
+node(&apos;master&apos;) {
+  stage &apos;Update attributes/default.rb&apos;
+    dir (&apos;devops_training/chef_repo/cookbooks/book2&apos;) {
+        def nnex = &apos;default[:book2][:vers] = &quot;&apos; + nex + &apos;&quot;&apos;
+        sh (&quot;sed -i &apos;/vers/d&apos; attributes/default.rb&quot;)
+        sh (&quot;echo &apos;${nnex}&apos; &gt;&gt; attributes/default.rb&quot;)
+    }
+    stage &apos;Update metadata.rb&apos;
+    dir (&apos;devops_training/chef_repo/cookbooks/book2&apos;) {
+        def mnex = &quot;version \&quot;&quot; +  nex + &apos;\&quot;&apos;
+        sh (&quot;sed -i &apos;/version/d&apos; metadata.rb&quot;)
+            echo mnex
+        sh (&quot;echo &apos;${mnex}&apos; &gt;&gt; metadata.rb&quot;)
+        sh (&quot;berks install&quot;)
+        sh (&quot;berks upload&quot;)
+    }
+    stage &apos;Update &lt;environment&gt;.json and upload environment&apos;
+        dir (&apos;devops_training/chef_repo/environment&apos;) {
+        sh &apos;&apos;&apos;enum=$(cat ${env}.json  | grep -Eo \&apos;[.0-9]+\&apos; | sed -n \&apos;/[0-9]\\{3\\}/p\&apos;)
+        sed -i \&apos;/ *\\&quot;/s/\\&quot;book2\\&quot;\\: \\&quot;= &apos;${enum}&apos;\\&quot;/ \\&quot;book2\\&quot;\\: \\&quot;= &apos;${nex}&apos;\\&quot;/g\&apos; ${env}.json&apos;&apos;&apos;
+        sh &apos;knife environment from file ${env}.json&apos;
+    }
+    stage &apos;Pull and push to GitHub&apos; 
+        dir(&apos;devops_training/chef_repo&apos;)	{
+            withCredentials([usernamePassword(credentialsId: &apos;pull&apos;, passwordVariable: &apos;PASSWORD&apos;, usernameVariable: &apos;USERNAME&apos;)]) {
+         //   sh &apos;git config --global user.email dziadkou.dzianis@gmail.com&apos;
+           // sh &apos;git config --global user.name admin&apos;
+            sh(&quot;git pull https://${USERNAME}:${PASSWORD}@github.com/DziadkouDzianis/devops_training.git task7&quot;)
+            sh(&quot;git status&quot;)
+            sh(&quot;git add .&quot;)
+            sh(&quot;git commit -am .&quot;)
+            sh(&quot;git push https://${USERNAME}:${PASSWORD}@github.com/DziadkouDzianis/devops_training.git task7&quot; )   
+            }
+        }
+}
+node (&apos;master&apos;) {
+    stage &apos;Update run container cookbook (blue green deployment step)&apos; 
+        dir(&apos;devops_training&apos;)  {
+            withCredentials([usernamePassword(credentialsId: &apos;c089430e-4642-43c5-ad05-e6d73bdb8c2a&apos;, passwordVariable: &apos;pass&apos;, usernameVariable: &apos;chef&apos;)]) {
+            sh (&quot;knife bootstrap 172.192.10.32 -P ${pass} --sudo --node-name node2 --run-list &apos;role[docker_run_role]&apos; -y&quot;)
+            }
+        }
+}
+</script>
+    <sandbox>false</sandbox>
+  </definition>
+  <triggers/>
+</flow-definition>
