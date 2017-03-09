@@ -4,21 +4,6 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-# Add image
-#docker_image '172.192.10.30:5000/task4' do
-#  repo "#{node[:book2][:img]}"
-#  tag "#{node[:book2][:vers]}"
-#  action :pull
-#end
-
-# Add container
-#docker_container 'tag' do
-#  repo '172.192.10.30:5000/task4'
-#  repo "#{node[:book2][:img]}"
-#  tag "#{node[:book2][:vers]}"
-#  action :run
-#end
-
 require 'socket'
 require 'timeout'
 
@@ -33,19 +18,6 @@ begin
       end
     end
   rescue Timeout::Error
-
-#if port_open?("172.192.10.32", ports[1])
-#    docker_container 'tag0' do
-#      repo '172.192.10.30:5000/task4'
-#      repo "#{node[:book2][:img]}"
-#      tag "#{node[:book2][:vers]}"
-#      port "8080:8080"
-#      action :run
-#    end
-#     docker_container 'tag1' do
-#      action [:stop, :delete]
-#     end
-#end
   end
 end
 
