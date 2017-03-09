@@ -10,12 +10,11 @@
   },
   "chef_type": "role",
   "run_list": [
-    "recipe[book2::default]"
-
+	 
   ],
   "env_run_lists": {  
 	"dev": "recipe[book2]",
-	"fake": "recipe[book3]"
+	"fake": "recipe[book2::default]"
 }	
   
 }
