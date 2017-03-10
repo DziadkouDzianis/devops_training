@@ -23,7 +23,7 @@ end
 
 # Blue Green Development
 
-if port_open?("172.192.10.32", ports[0])
+if port_open?("localhost", ports[0])
 
      docker_container 'tag1' do
       repo '172.192.10.30:5000/task4'
@@ -35,7 +35,7 @@ if port_open?("172.192.10.32", ports[0])
      docker_container 'tag0' do
       action [:stop, :delete]
     end
-elsif port_open?("172.192.10.32", ports[1])
+elsif port_open?("localhost", ports[1])
       docker_container 'tag0' do
      repo '172.192.10.30:5000/task4'
      repo "#{node[:book2][:img]}"
